@@ -1,547 +1,206 @@
-```react
-import React, { useState, useEffect } from 'react';
-import { 
-  Printer, Phone, MapPin, Star, Clock, Menu, X, 
-  ChevronRight, Upload, CheckCircle2, FileImage, 
-  Layers, Maximize, FileText, BookOpen, ExternalLink, Mail
-} from 'lucide-react';
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optic Print CC | Commercial Printer Ottery Cape Town</title>
+    <meta name="description" content="Optic Print CC is a trusted commercial printer in Ottery, Cape Town. We offer digital, offset, and large format printing.">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .cmyk-cyan { background-color: #00ffff; }
+        .cmyk-magenta { background-color: #e2007a; }
+        .cmyk-yellow { background-color: #fff200; }
+        .cmyk-black { background-color: #1a1a1a; }
+        
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(17, 24, 39, 1) 30%, rgba(17, 24, 39, 0.6) 100%);
+        }
+        
+        [data-lucide] {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .service-icon-box [data-lucide] {
+            width: 32px;
+            height: 32px;
+        }
 
-export default function App() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState('All');
-  const [lightboxImage, setLightboxImage] = useState(null);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+        .modal-active {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
 
-  // SEO & Metadata Setup
-  useEffect(() => {
-    document.title = "Optic Print CC | Commercial Printer Ottery Cape Town";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", "Optic Print CC is a trusted commercial printer in Ottery, Cape Town. We offer digital, offset, and large format printing. Call us at 021 761 8717 for a quote.");
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = "description";
-      meta.content = "Optic Print CC is a trusted commercial printer in Ottery, Cape Town. We offer digital, offset, and large format printing. Call us at 021 761 8717 for a quote.";
-      document.head.appendChild(meta);
-    }
-    
-    const metaKeywords = document.createElement('meta');
-    metaKeywords.name = "keywords";
-    metaKeywords.content = "Commercial printer, Cape Town, Ottery, digital printing, offset printing, flyers, business cards, large format printing, South Africa";
-    document.head.appendChild(metaKeywords);
-  }, []);
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMobileMenuOpen(false);
-    }
-  };
-
-  const handleQuoteSubmit = (e) => {
-    e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 5000);
-  };
-
-  const portfolioItems = [
-    { id: 1, category: 'Marketing Collateral', title: 'Spot UV Business Cards', img: 'https://images.unsplash.com/photo-1589041127530-07e05ebf3cb2?auto=format&fit=crop&q=80&w=800' },
-    { id: 2, category: 'Packaging', title: 'Custom Product Boxes', img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=800' },
-    { id: 3, category: 'Events', title: 'Large Format Vinyl Banner', img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800' },
-    { id: 4, category: 'Marketing Collateral', title: 'Saddle Stitched Catalogs', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800' },
-    { id: 5, category: 'Packaging', title: 'Foil Stamped Labels', img: 'https://images.unsplash.com/photo-1607004468138-c7e9f34044cd?auto=format&fit=crop&q=80&w=800' },
-    { id: 6, category: 'Events', title: 'Event Flyers & Posters', img: 'https://images.unsplash.com/photo-1572375992501-4b0892d50c69?auto=format&fit=crop&q=80&w=800' },
-  ];
-
-  const filteredPortfolio = activeFilter === 'All' 
-    ? portfolioItems 
-    : portfolioItems.filter(item => item.category === activeFilter);
-
-  const services = [
-    { icon: <Printer className="w-8 h-8 text-cyan-500" />, title: "Digital Printing", desc: "Short runs & variable data printing with crisp quality and fast turnarounds." },
-    { icon: <Layers className="w-8 h-8 text-fuchsia-600" />, title: "Offset Printing", desc: "Cost-effective large volumes with exact Pantone color matching." },
-    { icon: <Maximize className="w-8 h-8 text-yellow-500" />, title: "Large Format", desc: "Banners, posters, window decals, and high-quality vinyl graphics." },
-    { icon: <FileText className="w-8 h-8 text-gray-900" />, title: "Brochures & Flyers", desc: "High-impact marketing materials in various folds and paper stocks." },
-    { icon: <FileImage className="w-8 h-8 text-cyan-500" />, title: "Business Cards", desc: "Premium cards with luxury finishes like Spot UV, embossing, and foil." },
-    { icon: <BookOpen className="w-8 h-8 text-fuchsia-600" />, title: "Booklets & Catalogs", desc: "Perfect binding and saddle-stitching for professional multi-page documents." },
-  ];
-
-  return (
-    <div className="min-h-screen bg-white font-sans text-gray-800">
-      
-      {/* CMYK Brand Strip */}
-      <div className="h-1.5 w-full flex sticky top-0 z-50">
-        <div className="w-1/4 bg-cyan-500"></div>
-        <div className="w-1/4 bg-[#e2007a]"></div> {/* Magenta */}
-        <div className="w-1/4 bg-[#fff200]"></div> {/* Yellow */}
-        <div className="w-1/4 bg-gray-900"></div> {/* Key/Black */}
-      </div>
-
-      {/* Header / Navigation */}
-      <header className="bg-white shadow-sm sticky top-[6px] z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => scrollToSection('home')}>
-              <div className="flex items-center gap-2">
-                <div className="grid grid-cols-2 gap-0.5">
-                  <div className="w-3 h-3 bg-cyan-500 rounded-tl-sm"></div>
-                  <div className="w-3 h-3 bg-[#e2007a] rounded-tr-sm"></div>
-                  <div className="w-3 h-3 bg-[#fff200] rounded-bl-sm"></div>
-                  <div className="w-3 h-3 bg-gray-900 rounded-br-sm"></div>
-                </div>
-                <span className="font-bold text-2xl tracking-tight text-gray-900">OPTIC<span className="text-cyan-600">PRINT</span></span>
-              </div>
-            </div>
-
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex space-x-8 items-center">
-              <button onClick={() => scrollToSection('home')} className="text-gray-600 hover:text-cyan-600 font-medium transition-colors">Home</button>
-              <button onClick={() => scrollToSection('services')} className="text-gray-600 hover:text-cyan-600 font-medium transition-colors">Services</button>
-              <button onClick={() => scrollToSection('portfolio')} className="text-gray-600 hover:text-cyan-600 font-medium transition-colors">Our Work</button>
-              <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-cyan-600 font-medium transition-colors">Contact</button>
-              <button onClick={() => scrollToSection('quote')} className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2.5 rounded-md font-medium transition-colors shadow-md">
-                Quote Request
-              </button>
-            </nav>
-
-            {/* Mobile Nav Actions */}
-            <div className="flex md:hidden items-center gap-4">
-              <a href="tel:0217618717" className="bg-cyan-50 text-cyan-700 p-2 rounded-full">
-                <Phone size={20} />
-              </a>
-              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-600">
-                {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-6 space-y-2 shadow-lg absolute w-full">
-            <button onClick={() => scrollToSection('home')} className="block w-full text-left px-3 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md">Home</button>
-            <button onClick={() => scrollToSection('services')} className="block w-full text-left px-3 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md">Services</button>
-            <button onClick={() => scrollToSection('portfolio')} className="block w-full text-left px-3 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md">Our Work</button>
-            <button onClick={() => scrollToSection('contact')} className="block w-full text-left px-3 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md">Contact</button>
-            <button onClick={() => scrollToSection('quote')} className="block w-full text-center mt-4 bg-gray-900 text-white px-3 py-3 rounded-md font-medium">Quote Request</button>
-          </div>
-        )}
-      </header>
-
-      {/* Hero Section */}
-      <section id="home" className="relative bg-gray-900 text-white overflow-hidden">
-        {/* Background Overlay simulating a working press */}
-        <div className="absolute inset-0 opacity-40">
-          <img 
-            src="https://images.unsplash.com/photo-1620601249767-175578a1c97a?auto=format&fit=crop&q=80&w=2000" 
-            alt="Printing press in operation" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex flex-col justify-center min-h-[80vh]">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-medium text-sm mb-6 border border-cyan-500/30">
-              <CheckCircle2 size={16} /> Quality Commercial Printing in Cape Town
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-              Commercial Printing in <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-[#e2007a]">Ottery, Cape Town.</span>
-            </h1>
-            <p className="text-xl text-gray-300 mb-10 leading-relaxed">
-              High-quality digital & offset printing for businesses. Fast turnaround times, meticulous finishing, and reliable service.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button onClick={() => scrollToSection('quote')} className="bg-cyan-500 hover:bg-cyan-400 text-gray-900 font-bold px-8 py-4 rounded-md transition-colors flex items-center justify-center gap-2 text-lg">
-                Get an Instant Quote <ChevronRight size={20} />
-              </button>
-              <a href="tel:0217618717" className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-semibold px-8 py-4 rounded-md transition-all flex items-center justify-center gap-2 text-lg">
-                <Phone size={20} /> Call Us: 021 761 8717
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Business Info Strip */}
-      <section className="bg-white border-b border-gray-200 shadow-sm relative z-10 -mt-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium text-gray-600">
-            
-            <a href="#reviews" className="flex items-center gap-2 hover:text-gray-900 transition-colors group">
-              <div className="flex text-[#fff200] drop-shadow-sm">
-                <Star fill="currentColor" size={18} />
-                <Star fill="currentColor" size={18} />
-                <Star fill="currentColor" size={18} />
-                <Star fill="currentColor" size={18} />
-                <Star fill="currentColor" size={18} className="text-gray-300" /> {/* 4.8 representation */}
-              </div>
-              <span className="group-hover:underline">4.8 (4 Google reviews)</span>
-            </a>
-
-            <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-
-            <a href="#footer-hours" className="flex items-center gap-2 text-emerald-600 hover:text-emerald-700 transition-colors">
-              <Clock size={18} />
-              <span>Open Today: 7am – 4pm</span>
-            </a>
-
-            <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-
-            <a href="https://maps.google.com/?q=7+Enslin+Rd,+Ottery,+Cape+Town,+7808" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-cyan-600 transition-colors group">
-              <MapPin size={18} className="text-cyan-600" />
-              <span>7 Enslin Rd, Ottery <span className="text-gray-400 font-normal ml-1">(~24 mins away)</span></span>
-              <span className="text-cyan-600 group-hover:underline ml-2">Directions</span>
-            </a>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Printing Capabilities</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-[#e2007a] mx-auto mb-4"></div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">From short-run digital to large-scale offset projects, we have the technology and expertise to deliver perfection.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <div key={index} className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
-                <div className="bg-gray-50 w-16 h-16 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  {service.icon}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
-                <p className="text-gray-600 mb-6 line-clamp-2">{service.desc}</p>
-                <button onClick={() => scrollToSection('quote')} className="text-cyan-600 font-semibold flex items-center gap-1 hover:text-cyan-700 transition-colors">
-                  Get a Price <ChevronRight size={16} />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Portfolio / Our Work */}
-      <section id="portfolio" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Work</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-[#fff200] to-gray-900 mb-4"></div>
-              <p className="text-lg text-gray-600">Explore some of our recent high-quality print finishes.</p>
-            </div>
-            
-            {/* Filters */}
-            <div className="flex flex-wrap gap-2">
-              {['All', 'Marketing Collateral', 'Packaging', 'Events'].map(filter => (
-                <button 
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    activeFilter === filter 
-                      ? 'bg-gray-900 text-white' 
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPortfolio.map(item => (
-              <div 
-                key={item.id} 
-                className="group relative rounded-xl overflow-hidden cursor-pointer aspect-square bg-gray-100"
-                onClick={() => setLightboxImage(item)}
-              >
-                <img 
-                  src={item.img} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                  <span className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">{item.category}</span>
-                  <h3 className="text-white text-xl font-bold">{item.title}</h3>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Lightbox Modal */}
-        {lightboxImage && (
-          <div className="fixed inset-0 z-50 bg-gray-900/95 flex items-center justify-center p-4 sm:p-8 backdrop-blur-sm">
-            <button 
-              onClick={() => setLightboxImage(null)}
-              className="absolute top-6 right-6 text-white hover:text-cyan-400 bg-gray-800 rounded-full p-2 transition-colors"
-            >
-              <X size={24} />
-            </button>
-            <div className="max-w-5xl w-full flex flex-col items-center">
-              <img 
-                src={lightboxImage.img} 
-                alt={lightboxImage.title} 
-                className="max-h-[80vh] w-auto object-contain rounded-md shadow-2xl"
-              />
-              <div className="mt-6 text-center">
-                <h3 className="text-2xl font-bold text-white mb-2">{lightboxImage.title}</h3>
-                <p className="text-gray-400 uppercase tracking-widest text-sm">{lightboxImage.category}</p>
-              </div>
-            </div>
-          </div>
-        )}
-      </section>
-
-      {/* Quote Request Section */}
-      <section id="quote" className="py-20 bg-gray-900 text-white relative overflow-hidden">
-        {/* Decorative Background Elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#e2007a] rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Form Intro */}
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Get an Instant Quote</h2>
-              <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-                Ready to start your print project? Fill out the details below, upload your artwork if you have it, and our team will get back to you with pricing within 2 hours during business hours.
-              </p>
-              
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-gray-800 p-3 rounded-lg text-cyan-400">
-                    <Upload size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg">Easy File Uploads</h4>
-                    <p className="text-gray-400">Accepting PDF, AI, PSD, and high-res JPGs (Max 20MB).</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="bg-gray-800 p-3 rounded-lg text-[#e2007a]">
-                    <Layers size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg">Custom Finishes Available</h4>
-                    <p className="text-gray-400">Specify lamination, folding, binding, or custom cuts.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* The Form */}
-            <div className="bg-white rounded-2xl p-8 shadow-2xl text-gray-800">
-              {formSubmitted ? (
-                <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                  <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle2 size={32} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Quote Requested!</h3>
-                  <p className="text-gray-600">Thank you. Our estimating team is reviewing your details and will be in touch shortly.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleQuoteSubmit} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">Name *</label>
-                      <input required type="text" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all" placeholder="John Doe" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">Company</label>
-                      <input type="text" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all" placeholder="Your Business" />
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">Email *</label>
-                      <input required type="email" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all" placeholder="john@example.com" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">Phone *</label>
-                      <input required type="tel" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all" placeholder="021 761 8717" />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">Select Service *</label>
-                      <select required className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all bg-white">
-                        <option value="">Choose an option...</option>
-                        <option value="business-cards">Business Cards</option>
-                        <option value="flyers">Flyers & Brochures</option>
-                        <option value="booklets">Booklets & Catalogs</option>
-                        <option value="large-format">Large Format / Banners</option>
-                        <option value="packaging">Packaging & Labels</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">Quantity *</label>
-                      <input required type="number" min="1" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all" placeholder="e.g. 500" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Finish Options (Optional)</label>
-                    <div className="flex flex-wrap gap-4">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 text-cyan-600 rounded border-gray-300 focus:ring-cyan-500" />
-                        <span className="text-sm text-gray-600">Lamination</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 text-cyan-600 rounded border-gray-300 focus:ring-cyan-500" />
-                        <span className="text-sm text-gray-600">Folding</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 text-cyan-600 rounded border-gray-300 focus:ring-cyan-500" />
-                        <span className="text-sm text-gray-600">Stapling / Binding</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Upload Artwork (Optional)</label>
-                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-cyan-500 transition-colors cursor-pointer bg-gray-50">
-                      <div className="space-y-1 text-center">
-                        <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                        <div className="flex text-sm text-gray-600 justify-center">
-                          <label className="relative cursor-pointer bg-transparent rounded-md font-medium text-cyan-600 hover:text-cyan-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-cyan-500">
-                            <span>Upload a file</span>
-                            <input type="file" className="sr-only" accept=".pdf,.ai,.psd,.jpg,.jpeg,.png" />
-                          </label>
-                          <p className="pl-1">or drag and drop</p>
-                        </div>
-                        <p className="text-xs text-gray-500">PDF, AI, PSD, JPG up to 20MB</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button type="submit" className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 px-4 rounded-md transition-colors shadow-lg mt-4">
-                    Get My Price
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer & Map Section */}
-      <footer id="contact" className="bg-gray-50 border-t border-gray-200 pt-16 pb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-            
-            {/* Brand Col */}
-            <div className="lg:col-span-1">
-               <div className="flex items-center gap-2 mb-6">
-                <div className="grid grid-cols-2 gap-0.5">
-                  <div className="w-4 h-4 bg-cyan-500 rounded-tl-sm"></div>
-                  <div className="w-4 h-4 bg-[#e2007a] rounded-tr-sm"></div>
-                  <div className="w-4 h-4 bg-[#fff200] rounded-bl-sm"></div>
-                  <div className="w-4 h-4 bg-gray-900 rounded-br-sm"></div>
-                </div>
-                <span className="font-bold text-2xl tracking-tight text-gray-900">OPTIC<span className="text-cyan-600">PRINT</span></span>
-              </div>
-              <p className="text-gray-600 text-sm mb-6">
-                Your trusted commercial printing partner in Cape Town. We deliver precision, speed, and exceptional quality for all your business needs.
-              </p>
-            </div>
-
-            {/* Contact Info */}
-            <div>
-              <h4 className="font-bold text-gray-900 text-lg mb-6">Contact Us</h4>
-              <ul className="space-y-4">
-                <li>
-                  <a href="tel:0217618717" className="flex items-start gap-3 text-gray-600 hover:text-cyan-600 transition-colors">
-                    <Phone size={20} className="shrink-0 text-cyan-600" />
-                    <span>021 761 8717</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto:info@opticprint.co.za" className="flex items-start gap-3 text-gray-600 hover:text-cyan-600 transition-colors">
-                    <Mail size={20} className="shrink-0 text-cyan-600" />
-                    <span>info@opticprint.co.za</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://maps.google.com/?q=7+Enslin+Rd,+Ottery,+Cape+Town,+7808" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 text-gray-600 hover:text-cyan-600 transition-colors group">
-                    <MapPin size={20} className="shrink-0 text-cyan-600" />
-                    <span>
-                      7 Enslin Rd<br/>
-                      Ottery, Cape Town<br/>
-                      7808
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Hours */}
-            <div id="footer-hours">
-              <h4 className="font-bold text-gray-900 text-lg mb-6">Hours of Operation</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex justify-between"><span>Monday</span> <span>7:00 am – 4:00 pm</span></li>
-                <li className="flex justify-between"><span>Tuesday</span> <span>7:00 am – 4:00 pm</span></li>
-                <li className="flex justify-between"><span>Wednesday</span> <span>7:00 am – 4:00 pm</span></li>
-                <li className="flex justify-between"><span>Thursday</span> <span>7:00 am – 4:00 pm</span></li>
-                <li className="flex justify-between font-medium text-gray-900"><span>Friday</span> <span>7:00 am – 1:00 pm</span></li>
-                <li className="flex justify-between text-gray-400"><span>Saturday</span> <span>Closed</span></li>
-                <li className="flex justify-between text-gray-400"><span>Sunday</span> <span>Closed</span></li>
-              </ul>
-              <a href="https://maps.google.com/?q=7+Enslin+Rd,+Ottery,+Cape+Town,+7808" target="_blank" rel="noopener noreferrer" className="block mt-4 text-xs text-cyan-600 hover:underline">
-                Suggest new hours
-              </a>
-            </div>
-
-            {/* Map Embed */}
-            <div className="lg:col-span-1 h-48 md:h-full min-h-[200px] relative rounded-lg overflow-hidden border border-gray-200">
-              {/* Using a generic Maps embed for Ottery as placeholder for the exact 7 Enslin Rd API pin */}
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3307.39766938258!2d18.506526315211995!3d-34.0040529806192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc4377bbdbfa21%3A0xc68b31a2c3a51f8b!2sOttery%2C%20Cape%20Town%2C%207800!5e0!3m2!1sen!2sza!4v1650000000000!5m2!1sen!2sza" 
-                width="100%" 
-                height="100%" 
-                style={{border:0}} 
-                allowFullScreen="" 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Optic Print Location Map"
-                className="absolute inset-0"
-              ></iframe>
-              <a 
-                href="https://maps.google.com/?q=7+Enslin+Rd,+Ottery,+Cape+Town,+7808" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur shadow-md px-4 py-2 rounded text-sm font-semibold text-gray-900 text-center flex items-center justify-center gap-2 hover:bg-cyan-50 hover:text-cyan-700 transition-colors"
-              >
-                Open in Google Maps <ExternalLink size={16} />
-              </a>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-500 text-sm">
-              &copy; {new Date().getFullYear()} Optic Print CC. All rights reserved.
-            </p>
-            <div className="flex gap-4 text-sm text-gray-500">
-              <a href="#" className="hover:text-gray-900 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-gray-900 transition-colors">Terms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+    <!-- CMYK Brand Strip -->
+    <div class="h-1.5 w-full flex sticky top-0 z-50">
+        <div class="w-1/4 cmyk-cyan"></div>
+        <div class="w-1/4 cmyk-magenta"></div>
+        <div class="w-1/4 cmyk-yellow"></div>
+        <div class="w-1/4 cmyk-black"></div>
     </div>
-  );
-}
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-[6px] z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="grid grid-cols-2 gap-0.5">
+                        <div class="w-3 h-3 cmyk-cyan rounded-tl-sm"></div>
+                        <div class="w-3 h-3 cmyk-magenta rounded-tr-sm"></div>
+                        <div class="w-3 h-3 cmyk-yellow rounded-bl-sm"></div>
+                        <div class="w-3 h-3 cmyk-black rounded-br-sm"></div>
+                    </div>
+                    <span class="font-bold text-2xl tracking-tight text-gray-900">OPTIC<span class="text-cyan-600">PRINT</span></span>
+                </div>
+
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="text-gray-600 hover:text-cyan-600 font-medium transition-colors">Home</a>
+                    <a href="#services" class="text-gray-600 hover:text-cyan-600 font-medium transition-colors">Services</a>
+                    <a href="#portfolio" class="text-gray-600 hover:text-cyan-600 font-medium transition-colors">Our Work</a>
+                    <a href="#quote" class="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2.5 rounded-md font-medium transition-colors">Quote Request</a>
+                </nav>
+
+                <div class="flex md:hidden items-center gap-4">
+                    <a href="tel:0217618717" class="bg-cyan-50 text-cyan-700 p-2 rounded-full"><i data-lucide="phone"></i></a>
+                    <button onclick="toggleMenu()" class="text-gray-600"><i data-lucide="menu" id="menu-icon"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 py-6 space-y-4 shadow-lg">
+            <a href="#home" onclick="toggleMenu()" class="block font-medium">Home</a>
+            <a href="#services" onclick="toggleMenu()" class="block font-medium">Services</a>
+            <a href="#portfolio" onclick="toggleMenu()" class="block font-medium">Our Work</a>
+            <a href="#quote" onclick="toggleMenu()" class="block bg-gray-900 text-white text-center py-3 rounded-md">Quote Request</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="relative bg-gray-900 text-white min-h-[80vh] flex items-center overflow-hidden">
+        <div class="absolute inset-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1620601249767-175578a1c97a?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-gradient"></div>
+        </div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-medium text-sm mb-6 border border-cyan-500/30">
+                    <i data-lucide="check-circle-2"></i> Quality Commercial Printing in Cape Town
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6">Commercial Printing in <span class="text-cyan-400">Ottery.</span></h1>
+                <p class="text-xl text-gray-300 mb-10">High-quality digital & offset printing for businesses. Fast turnaround times and meticulous finishing.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#quote" class="bg-cyan-500 text-gray-900 font-bold px-8 py-4 rounded-md text-center hover:bg-cyan-400">Get an Instant Quote</a>
+                    <a href="tel:0217618717" class="border border-white/20 px-8 py-4 rounded-md text-center hover:bg-white/10 flex items-center justify-center gap-2"><i data-lucide="phone"></i> 021 761 8717</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Strip -->
+    <section class="bg-white border-b py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between gap-4 text-sm font-medium text-gray-600">
+            <div class="flex items-center gap-2">
+                <div class="flex text-yellow-400"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <span>4.8 (4 reviews)</span>
+            </div>
+            <div class="flex items-center gap-2 text-emerald-600"><i data-lucide="clock"></i> Open Today: 7am – 4pm</div>
+            <a href="https://maps.google.com/?q=7+Enslin+Rd,+Ottery,+Cape+Town,+7808" target="_blank" class="flex items-center gap-2 hover:text-cyan-600 transition-colors">
+                <i data-lucide="map-pin"></i> 7 Enslin Rd, Ottery <span class="text-cyan-600 ml-2">Directions</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Our Printing Capabilities</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-sm border hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 text-cyan-600 service-icon-box"><i data-lucide="printer"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Digital Printing</h3>
+                    <p class="text-gray-600 mb-6">Short runs & variable data with crisp quality and fast turnarounds.</p>
+                    <a href="#quote" class="text-cyan-600 font-bold flex items-center gap-2">Get Price <i data-lucide="chevron-right"></i></a>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm border hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-fuchsia-50 rounded-lg flex items-center justify-center mb-6 text-fuchsia-600 service-icon-box"><i data-lucide="layers"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Offset Printing</h3>
+                    <p class="text-gray-600 mb-6">Large volume solutions with exact Pantone color matching.</p>
+                    <a href="#quote" class="text-cyan-600 font-bold flex items-center gap-2">Get Price <i data-lucide="chevron-right"></i></a>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm border hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-yellow-50 rounded-lg flex items-center justify-center mb-6 text-yellow-600 service-icon-box"><i data-lucide="maximize"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Large Format</h3>
+                    <p class="text-gray-600 mb-6">Banners, posters, and high-quality vinyl graphics.</p>
+                    <a href="#quote" class="text-cyan-600 font-bold flex items-center gap-2">Get Price <i data-lucide="chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Form -->
+    <section id="quote" class="py-20 bg-gray-900 text-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-white text-gray-900 p-8 md:p-12 rounded-2xl shadow-2xl">
+                <h2 class="text-3xl font-bold mb-8 text-center">Get a Quote</h2>
+                <form onsubmit="handleSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="text" placeholder="Name" required class="w-full p-3 border rounded-lg">
+                        <input type="email" placeholder="Email" required class="w-full p-3 border rounded-lg">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <select class="w-full p-3 border rounded-lg bg-white">
+                            <option>Business Cards</option>
+                            <option>Flyers</option>
+                            <option>Banners</option>
+                            <option>Booklets</option>
+                        </select>
+                        <input type="number" placeholder="Quantity" class="w-full p-3 border rounded-lg">
+                    </div>
+                    <textarea placeholder="Tell us more about your project..." rows="4" class="w-full p-3 border rounded-lg"></textarea>
+                    <button type="submit" class="w-full bg-cyan-600 text-white font-bold py-4 rounded-lg hover:bg-cyan-700 transition-colors">Submit Inquiry</button>
+                </form>
+                <div id="success-msg" class="hidden text-center py-10">
+                    <div class="text-green-500 mb-4 flex justify-center"><i data-lucide="check-circle-2" style="width: 48px; height: 48px;"></i></div>
+                    <h3 class="text-2xl font-bold">Request Sent!</h3>
+                    <p>We'll get back to you shortly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-50 border-t py-12 text-center text-gray-500">
+        <p>&copy; 2024 Optic Print CC | 7 Enslin Rd, Ottery, Cape Town</p>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Logic
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('hidden');
+            // Swap icon visually if needed
+        }
+
+        // Form Submission Logic
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const success = document.getElementById('success-msg');
+            form.classList.add('hidden');
+            success.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
 
 ```
